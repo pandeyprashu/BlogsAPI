@@ -158,7 +158,13 @@ public class PostServiceImpl implements PostService {
 
     // Search for posts by keyword (not implemented yet)
     @Override
-    public List<Post> searchPosts(String keyword) {
-        return null; // Placeholder, not implemented yet
+    public List<PostDto> searchPosts(String keyword) {
+        List<Post> postList = this.postRepository.findByTitleContaining(keyword);
+
+        // Map each Post object to a PostDto object and collect into a list
+        return postList.stream()
+                .map(post -> this.modelMapper.map(post, PostDto.class))
+                .toList();
     }
+
 }
